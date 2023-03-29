@@ -1,0 +1,11 @@
+.fa, .fa-solid {
+    color: #fff;
+}
+
+.full-modal .fixed.z-40.flex.items-end {
+    align-items: center;
+}
+
+.basic-single {
+    color: #000;
+}

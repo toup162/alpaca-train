@@ -12,9 +12,7 @@ function Cards() {
     return (
         <>
             <PageTitle>Cards</PageTitle>
-
-            <CTA />
-
+            <i class="fa-solid fa-user"></i>
             <SectionTitle>Big section cards</SectionTitle>
 
             <Card className="mb-8 shadow-md">
