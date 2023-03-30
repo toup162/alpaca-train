@@ -1,3 +1,10 @@
+
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/11641649/228842006-1f020faa-ce59-4241-a73b-1da2002f9d23.png">
+</p>
+
+
 ### Routing
 
 Routes in Windmill Dashboard are separated into two categories, sidebar ([routes/sidebar.js](src/routes/sidebar.js)) and general ([routes/index.js](src/routes/index.js)).
