@@ -2,6 +2,7 @@ import React from 'react'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, HelperText, Label, Textarea } from '@windmill/react-ui'
 import Select from 'react-select';
 import chroma from 'chroma-js';
+import SwitchSelector from "react-switch-selector";
 
 const lineOptions = [
     { value: 'red', label: 'Red', color: '#da291c' },
@@ -77,9 +78,31 @@ const colourStyles = {
     input: (styles) => ({ ...styles, ...dot() }),
     placeholder: (styles) => ({ ...styles, ...dot('#ccc') }),
     singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
-  };
+};
 
 const AddFavoriteModal = ({ isOpen, setOpen }) => {
+
+    const options = [
+        {
+            label: "Inbound",
+            value: {
+                 foo: true
+            },
+            selectedBackgroundColor: "#7e3af2",
+        },
+        {
+            label: "Outbound",
+            value: "bar",
+            selectedBackgroundColor: "#7e3af2"
+        }
+     ];
+     
+     const onChangeLineDirection = (newValue) => {
+         console.log(newValue);
+     };
+     
+     const initialSelectedIndex = options.findIndex(({value}) => value === "bar");
+
     return (
         <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
             
@@ -103,13 +126,19 @@ const AddFavoriteModal = ({ isOpen, setOpen }) => {
                     </Label>
 
                     <Label className="mt-4">
-                        <span>Disabled</span>
-                        <Input disabled className="mt-1" placeholder="Jane Doe" />
+                        <div className="mb-1">Direction</div>
+                        <div className="your-required-wrapper" style={{width: 220, height: 30}}>
+                            <SwitchSelector
+                                onChange={onChangeLineDirection}
+                                options={options}
+                                initialSelectedIndex={initialSelectedIndex} 
+                                backgroundColor={"#353b48"}
+                                fontColor={"#f5f6fa"}
+                            />
+                        </div>
                     </Label>
 
                     <div className="mt-4">
-                        {/* TODO: Check if this label is accessible, or fallback */}
-                        {/* <span className="text-sm text-gray-700 dark:text-gray-400">Account Type</span> */}
                         <Label>Account Type</Label>
                         <div className="mt-2">
                             <Label radio>
@@ -128,38 +157,33 @@ const AddFavoriteModal = ({ isOpen, setOpen }) => {
                     </div>
                 </div>
             </ModalBody>
-            
-            
-            
-            
-            
-            
-            
-            <ModalFooter>
-                {/* I don't like this approach. Consider passing a prop to ModalFooter
-                * that if present, would duplicate the buttons in a way similar to this.
-                * Or, maybe find some way to pass something like size="large md:regular"
-                * to Button
-                */}
-                <div className="hidden sm:block">
-                    <Button layout="outline" onClick={() => setOpen(false)}>
-                        Cancel
-                    </Button>
-                </div>
-                <div className="hidden sm:block">
-                    <Button>Accept</Button>
-                </div>
-                <div className="block w-full sm:hidden">
-                    <Button block size="large" layout="outline" onClick={() => setOpen(false)}>
-                        Cancel
-                    </Button>
-                </div>
-                <div className="block w-full sm:hidden">
-                    <Button block size="large">
-                        Accept
-                    </Button>
-                </div>
-            </ModalFooter>
+            <div className="sm:mb-12">
+                <ModalFooter>
+                    {/* I don't like this approach. Consider passing a prop to ModalFooter
+                    * that if present, would duplicate the buttons in a way similar to this.
+                    * Or, maybe find some way to pass something like size="large md:regular"
+                    * to Button
+                    */}
+                    <div className="hidden sm:block">
+                        <Button layout="outline" onClick={() => setOpen(false)}>
+                            Cancel
+                        </Button>
+                    </div>
+                    <div className="hidden sm:block">
+                        <Button>Accept</Button>
+                    </div>
+                    <div className="block w-full sm:hidden">
+                        <Button block size="large" layout="outline" onClick={() => setOpen(false)}>
+                            Cancel
+                        </Button>
+                    </div>
+                    <div className="block w-full sm:hidden">
+                        <Button block size="large">
+                            Accept
+                        </Button>
+                    </div>
+                </ModalFooter>
+            </div>
         </Modal>
     )
 }

@@ -9,3 +9,12 @@
 .basic-single {
     color: #000;
 }
+
+
+.basic-single .select__menu {
+    z-index: 99;
+}
+
+.select__indicator.select__dropdown-indicator {
+    color: #262626;
+}
