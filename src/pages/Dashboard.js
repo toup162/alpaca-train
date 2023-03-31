@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
 import StationCard from '../components/Cards/StationCard'
-import SectionTitle from '../components/Typography/SectionTitle'
-import { ChatIcon, CartIcon, MoneyIcon, PeopleIcon } from '../icons'
-import RoundIcon from '../components/RoundIcon'
 import {
     Button
 } from '@windmill/react-ui'
