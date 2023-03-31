@@ -3,7 +3,7 @@ import { Card, CardBody } from '@windmill/react-ui'
 import { LINE_COLORS } from '../../utils/constants';
 
 import './StationCard.css';
-
+// https://api-v3.mbta.com/predictions?include=stop&filter%5Bdirection_id%5D=0&filter%5Broute_type%5D=1&filter%5Bstop%5D=place-sstat
 const StationCard = ({ stationName, favoritedTrains }) => {
     favoritedTrains = [
         {name: 'Forest Hills', eta: '4 min', line: 'orange'},

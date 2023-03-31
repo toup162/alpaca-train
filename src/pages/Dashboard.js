@@ -4,10 +4,41 @@ import {
     Button
 } from '@windmill/react-ui'
 import AddFavoriteModal from '../components/AddFavoriteModal/AddFavoriteModal'
+/*import { stops, lightStops, STATIONS } from '../utils/constants';*/
 
 const Dashboard = () => {
 
     const [isAddFavorateModalOpen, setIsAddFavorateModalOpen] = useState(false);
+
+
+    
+    /*
+    STATIONS.orange.forEach(s => {
+        let found = stops.find(z => {
+            return z?.attributes?.name === s.label;
+        })
+        let placeName = found?.relationships?.parent_station?.data?.id;
+
+        if (placeName) {
+            console.log("------\n");
+            s.mbtaPlaceId = placeName;
+            s.mbtaId = found.id;
+            s.latitude = found.attributes.latitude;
+            s.longitude = found.attributes.longitude;
+
+            //console.log(x.relationships.parent_station.data.id);
+            console.log("--------\n");
+        } else {
+            console.log("------\nCouldn't find");
+            console.log(s);
+            console.log("--------\n");
+        }
+    })
+
+    console.log(STATIONS.orange);
+
+    */
+
 
     return (
         <div className="mb-12 mt-6">
@@ -17,7 +48,7 @@ const Dashboard = () => {
                 </div>
                 <div>
                     <Button onClick={() => setIsAddFavorateModalOpen(true)}>
-                    <i class="fa-solid fa-plus mr-2" /><span>Add Favorite</span>
+                        <i className="fa-solid fa-plus mr-2" /><span>Add Favorite</span>
                     </Button>
                 </div>
             </div>
