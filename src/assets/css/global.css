@@ -15,6 +15,21 @@
     z-index: 99;
 }
 
+.basic-single .select__menu-list {
+    max-height: 230px;
+    overflow-y: scroll;
+}
+
 .select__indicator.select__dropdown-indicator {
     color: #262626;
+}
+
+label.react-switch-selector-option-label {
+    font-size: 13px;
+}
+
+div.react-switch-selector-wrapper,
+div.react-switch-selector-wrapper::before,
+div.react-switch-selector-option {
+    border-radius: 6px;
 }

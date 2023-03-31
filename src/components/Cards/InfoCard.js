@@ -1,14 +1,12 @@
 import React from 'react'
 import { Card, CardBody } from '@windmill/react-ui'
 
-function InfoCard({ title, value, children: icon }) {
+function InfoCard({ stationName, incomingTrains }) {
     return (
         <Card>
-            <CardBody className="flex items-center">
-                {icon}
-                <div>
-                    <p className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
-                    <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">{value}</p>
+            <CardBody className="station-card flex items-center p-0">
+                <div className="station-name-container p-4">
+                    <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">{stationName}</p>
                 </div>
             </CardBody>
         </Card>

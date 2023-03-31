@@ -1,0 +1,29 @@
+.station-card.p-0 {
+    padding: 0;
+}
+
+.favorited-trains-container {
+    white-space: nowrap;
+}
+
+.station-card {
+    color: #fff;
+}
+
+.train-label {
+    font-size: 14px;
+    
+}
+
+.train-name {
+    font-weight: bold;
+}
+
+.train-dot {
+    font-size: 23px;
+    line-height: 19px;
+}
+
+.train-eta {
+    
+}

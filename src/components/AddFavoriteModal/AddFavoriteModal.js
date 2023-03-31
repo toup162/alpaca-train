@@ -1,18 +1,10 @@
-import React from 'react'
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, HelperText, Label, Textarea } from '@windmill/react-ui'
+import React, { useState } from 'react'
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Label } from '@windmill/react-ui'
 import Select from 'react-select';
 import chroma from 'chroma-js';
-import SwitchSelector from "react-switch-selector";
-
-const lineOptions = [
-    { value: 'red', label: 'Red', color: '#da291c' },
-    { value: 'blue', label: 'Blue', color: '#003da5' },
-    { value: 'orange', label: 'Orange', color: '#d67d00' },
-    { value: 'greenb', label: 'Green Line B', color: '#00843d' },
-    { value: 'greenc', label: 'Green Line C', color: '#00843d' },
-    { value: 'greend', label: 'Green Line D', color: '#00843d' },
-    { value: 'greene', label: 'Green Line E', color: '#00843d' },
-];
+import { SwitchSelect } from '../SwitchSelect/SwitchSelector';
+import { TRAINS, LINES, STATIONS } from '../../utils/constants';
+import './AddFavoriteModal.css';
 
 const dot = (color = 'transparent') => ({
     alignItems: 'center',
@@ -30,7 +22,7 @@ const dot = (color = 'transparent') => ({
 });
 
 const colourStyles = {
-    control: (styles) => ({ ...styles, backgroundColor: 'white' }),
+    control: (styles) => ({ ...styles, backgroundColor: 'white', maxHeight: '30px', }),
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
       const color = chroma(data.color);
       return {
@@ -81,35 +73,39 @@ const colourStyles = {
 };
 
 const AddFavoriteModal = ({ isOpen, setOpen }) => {
+    const [selectedLine, setSelectedLine] = useState(null);
+    const [selectedTrain, setSelectedTrain] = useState(null);
+    const [selectedStation, setSelectedStation] = useState(null);
 
-    const options = [
-        {
-            label: "Inbound",
-            value: {
-                 foo: true
-            },
-            selectedBackgroundColor: "#7e3af2",
-        },
-        {
-            label: "Outbound",
-            value: "bar",
-            selectedBackgroundColor: "#7e3af2"
-        }
-     ];
-     
-     const onChangeLineDirection = (newValue) => {
-         console.log(newValue);
-     };
-     
-     const initialSelectedIndex = options.findIndex(({value}) => value === "bar");
+    const onClose = () => {
+        setSelectedLine(null);
+        setSelectedTrain(null);
+        setSelectedStation(null);
+        setOpen(false);
+    }
+
+    const onSelectLine = option => {
+        setSelectedLine(option);
+        setSelectedTrain(TRAINS[option.value][0]);
+        setSelectedStation(null);
+    }
+
+    const onSelectTrain = selectedOption => {        
+        setSelectedTrain(TRAINS[selectedLine.value].find(o => o.value === selectedOption));
+        setSelectedStation(null);
+    };
+
+    const onSelectStation = option => {
+        setSelectedStation(option);
+    }
 
     return (
-        <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
+        <Modal isOpen={isOpen} onClose={onClose}>
             
             <ModalHeader>Add Favorite</ModalHeader>
 
             <ModalBody>
-                <div className="px-4 py-3 mb-8 bg-white rounded-lg dark:bg-gray-800">
+                <div className="add-favorite-modal-body-content px-4 py-3 mb-8 bg-white rounded-lg dark:bg-gray-800">
                     <Label className="mt-4">
                         <div className="mb-1">Subway Line</div>
                         <Select
@@ -119,45 +115,49 @@ const AddFavoriteModal = ({ isOpen, setOpen }) => {
                             isLoading={false}
                             isClearable={false}
                             isSearchable={false}
-                            name="color"
-                            options={lineOptions}
+                            name="line"
+                            options={LINES}
                             styles={colourStyles}
+                            onChange={(o) => onSelectLine(o)} 
+                            value={selectedLine}
                         />
                     </Label>
 
-                    <Label className="mt-4">
-                        <div className="mb-1">Direction</div>
-                        <div className="your-required-wrapper" style={{width: 220, height: 30}}>
-                            <SwitchSelector
-                                onChange={onChangeLineDirection}
-                                options={options}
-                                initialSelectedIndex={initialSelectedIndex} 
-                                backgroundColor={"#353b48"}
-                                fontColor={"#f5f6fa"}
+                    {selectedLine && 
+                        <Label className="mt-4">
+                            <div className="mb-1">Train</div>
+                            <SwitchSelect
+                                onChange={onSelectTrain}
+                                options={TRAINS[selectedLine.value]}
+                                controlledValue={selectedTrain}
                             />
-                        </div>
-                    </Label>
+                        </Label>
+                    }
 
-                    <div className="mt-4">
-                        <Label>Account Type</Label>
-                        <div className="mt-2">
-                            <Label radio>
-                                <Input type="radio" value="personal" name="accountType" />
-                                <span className="ml-2">Personal</span>
-                            </Label>
-                            <Label className="ml-6" radio>
-                                <Input type="radio" value="business" name="accountType" />
-                                <span className="ml-2">Business</span>
-                            </Label>
-                            <Label disabled className="ml-6" radio>
-                                <Input disabled type="radio" value="disabled" name="accountType" />
-                                <span className="ml-2">Disabled</span>
-                            </Label>
-                        </div>
-                    </div>
+                    {selectedTrain && 
+                        <Label className="mt-4 mb-8">
+                            <div className="mb-1">Station</div>
+                            <Select
+                                className="basic-single"
+                                classNamePrefix="select"
+                                placeholder="Search/Select..."
+                                defaultValue={null}
+                                isLoading={false}
+                                isSearchable={true}
+                                name="station"
+                                options={selectedTrain.reverseOptions
+                                    ? STATIONS[selectedLine?.value].slice().reverse()
+                                    : STATIONS[selectedLine?.value]
+                                }
+                                onChange={(o) => onSelectStation(o)} 
+                                value={selectedStation}
+                            />
+                        </Label>
+                    }
+
                 </div>
             </ModalBody>
-            <div className="sm:mb-12">
+            <div className="mb-8 sm:mb-12">
                 <ModalFooter>
                     {/* I don't like this approach. Consider passing a prop to ModalFooter
                     * that if present, would duplicate the buttons in a way similar to this.
@@ -165,7 +165,7 @@ const AddFavoriteModal = ({ isOpen, setOpen }) => {
                     * to Button
                     */}
                     <div className="hidden sm:block">
-                        <Button layout="outline" onClick={() => setOpen(false)}>
+                        <Button layout="outline" onClick={onClose}>
                             Cancel
                         </Button>
                     </div>
@@ -173,7 +173,7 @@ const AddFavoriteModal = ({ isOpen, setOpen }) => {
                         <Button>Accept</Button>
                     </div>
                     <div className="block w-full sm:hidden">
-                        <Button block size="large" layout="outline" onClick={() => setOpen(false)}>
+                        <Button block size="large" layout="outline" onClick={onClose}>
                             Cancel
                         </Button>
                     </div>
