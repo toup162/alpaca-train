@@ -3,7 +3,6 @@ import routes from '../../routes/sidebar'
 import { NavLink, Route } from 'react-router-dom'
 import * as Icons from '../../icons'
 import SidebarSubmenu from './SidebarSubmenu'
-import { Button } from '@windmill/react-ui'
 import Logo63 from '../../assets/img/logo63.png'
 
 function Icon({ icon, ...props }) {
