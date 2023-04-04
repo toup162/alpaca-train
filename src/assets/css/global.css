@@ -33,3 +33,7 @@ div.react-switch-selector-wrapper::before,
 div.react-switch-selector-option {
     border-radius: 6px;
 }
+
+.dashboard-container {
+    max-width: 850px;
+}

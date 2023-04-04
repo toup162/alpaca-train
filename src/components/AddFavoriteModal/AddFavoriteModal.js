@@ -3,7 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Label } from '@wind
 import Select from 'react-select';
 import chroma from 'chroma-js';
 import { SwitchSelect } from '../SwitchSelect/SwitchSelector';
-import { TRAINS, LINES, STATIONS } from '../../utils/constants';
+import { TRAINS, LINES, STATIONS, stationIdNameMap } from '../../utils/constants';
 import './AddFavoriteModal.css';
 
 const dot = (color = 'transparent') => ({
@@ -83,6 +83,35 @@ const AddFavoriteModal = ({ isOpen, setOpen }) => {
         setSelectedStation(null);
         setOpen(false);
     }
+
+    const onAccept = () => {
+
+        let favorites = JSON.parse(window.localStorage.getItem('ALPACA_TRAIN_FAVORITES')) || [];
+        const stationAlreadyFavorited = favorites.find(fav => fav.mbtaPlaceId === selectedStation.mbtaPlaceId);
+        
+        const newFavorite = {
+            directionId: selectedTrain.directionId,
+            mbtaTrainType: selectedTrain.mbtaTrainType,
+            routeId: selectedTrain.routeId,
+            routeName: selectedTrain.label
+        };
+
+        if (stationAlreadyFavorited) {
+            stationAlreadyFavorited.platforms.push(newFavorite)
+        } else {
+            favorites.push({
+                mbtaPlaceId: selectedStation.mbtaPlaceId,
+                mbtaPlaceName: stationIdNameMap[selectedStation.mbtaPlaceId],
+                platforms: [newFavorite]
+            });
+        }
+
+        window.localStorage.setItem('ALPACA_TRAIN_FAVORITES', JSON.stringify(favorites));
+        window.localStorage.setItem('ALPACA_TRAIN_DASHBOARD_LAST_REFRESHES', null);
+        
+        onClose();
+    };
+    
 
     const onSelectLine = option => {
         setSelectedLine(option);
@@ -170,7 +199,7 @@ const AddFavoriteModal = ({ isOpen, setOpen }) => {
                         </Button>
                     </div>
                     <div className="hidden sm:block">
-                        <Button>Accept</Button>
+                        <Button onClick={onAccept}>Accept</Button>
                     </div>
                     <div className="block w-full sm:hidden">
                         <Button block size="large" layout="outline" onClick={onClose}>
@@ -178,7 +207,7 @@ const AddFavoriteModal = ({ isOpen, setOpen }) => {
                         </Button>
                     </div>
                     <div className="block w-full sm:hidden">
-                        <Button block size="large">
+                        <Button block size="large" onClick={onAccept}>
                             Accept
                         </Button>
                     </div>

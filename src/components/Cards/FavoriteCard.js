@@ -2,33 +2,28 @@ import React from 'react'
 import { Card, CardBody } from '@windmill/react-ui'
 import { LINE_COLORS } from '../../utils/constants';
 
-import './StationCard.css';
-// https://api-v3.mbta.com/predictions?include=stop&filter%5Bdirection_id%5D=0&filter%5Broute_type%5D=1&filter%5Bstop%5D=place-sstat
-const StationCard = ({ stationName, favoritedTrains }) => {
-    favoritedTrains = [
-        {name: 'Forest Hills', eta: '4 min', line: 'orange'},
-        {name: 'Oak Grove', eta: '7 min', line: 'orange'},     
-        {name: 'Boston College', eta: '12 min', line: 'green'},       
-    ];
+import './FavoriteCard.css';
+import TrainLabel from './TrainLabel';
 
+const FavoriteCard = ({ info }) => {
     return (
         <Card>
             <CardBody className="station-card flex items-center p-0 justify-between">
                 <div className="station-name-container pt-4 pb-4 pl-4">
-                    <p className="text-md font-semibold text-gray-700 dark:text-gray-200">{stationName}</p>
+                    <p className="text-sm font-bold text-gray-700 dark:text-gray-400">{info.mbtaPlaceName}</p>
                 </div>
                 <div className="favorited-trains-container p-4">
-                    {favoritedTrains.map((train, i) => {
+                    {info.platforms.map((p, i) => {
                         return (
                             <div className="flex justify-end" key={i}>
                                 <div
                                     className="train-dot mr-1"
-                                    style={{color: LINE_COLORS[train.line]}}
+                                    style={{color: LINE_COLORS[p.routeId]}}
                                 >
                                     &#x2022;
                                 </div>
                                 <div className="train-label">
-                                    <span className="train-name">{train.name}</span>: <span className="train-eta">{train.eta}</span>
+                                    <TrainLabel mbtaPlaceId={info.mbtaPlaceId} platform={p} />
                                 </div>
                             </div>
                         )
@@ -39,4 +34,4 @@ const StationCard = ({ stationName, favoritedTrains }) => {
     )
 }
 
-export default StationCard
+export default FavoriteCard
