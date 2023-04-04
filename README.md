@@ -16,7 +16,17 @@
  - [windmill/react-ui](https://windmillui.com/react-ui):
    - React component library based on Tailwind CSS
 
+### Screens
+![image](https://user-images.githubusercontent.com/11641649/229946568-254477a0-59f5-4458-8107-525d9d4ff2ab.png)
+![image](https://user-images.githubusercontent.com/11641649/229946934-27145fc5-956a-4eed-bf29-7ec31ed9f6d2.png)
+
+
 ## Development Documentation
+
+### Planned Features
+ - Reordering of favorites on dashboard
+ - Removal of favorites on dashboard
+ - About page
 
 ### Routing
 
