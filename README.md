@@ -1,9 +1,22 @@
 
 
+
 <p align="center">
   <img src="https://user-images.githubusercontent.com/11641649/228842006-1f020faa-ce59-4241-a73b-1da2002f9d23.png">
 </p>
 
+
+##  
+
+**alpacatrain** is a mobile-first web tool for tracking MBTA (Boston subway) lines. Favorited platforms will have incoming/outgoing train predictions displayed at a glance. 
+
+### Notable technologies
+ - [MBTA developer API v3](https://api-v3.mbta.com/docs/swagger/index.html)
+ - [react v18.2](https://react.dev/blog/2022/03/29/react-v18)
+ - [windmill/react-ui](https://windmillui.com/react-ui):
+   - React component library based on Tailwind CSS
+
+## Development Documentation
 
 ### Routing
 
