@@ -37,3 +37,9 @@ div.react-switch-selector-option {
 .dashboard-container {
     max-width: 850px;
 }
+
+.mobile-logo {
+    font-family: 'Inter';
+    font-weight: bold;
+    color: #fff;
+}

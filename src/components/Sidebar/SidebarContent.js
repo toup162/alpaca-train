@@ -15,14 +15,14 @@ function SidebarContent() {
     return (
         <div className="py-4 text-gray-500 dark:text-gray-400">
             <div></div>
-            <a className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200 flex justify-start" href="#">
+            <span className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200 flex justify-start" href="#">
                 <img
                     aria-hidden="true"
                     className=""
                     src={Logo63}
                     alt="Logo Image"
                 />
-            </a>
+            </span>
             <ul className="mt-6">
                 {routes.map((route) =>
                     route.routes ? (
@@ -48,14 +48,6 @@ function SidebarContent() {
                     )
                 )}
             </ul>
-            <div className="px-6 my-6">
-                <Button>
-                    Create account
-                    <span className="ml-2" aria-hidden="true">
-                        +
-                    </span>
-                </Button>
-            </div>
         </div>
     )
 }

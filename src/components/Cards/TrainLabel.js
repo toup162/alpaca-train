@@ -1,12 +1,16 @@
 import React from 'react'
-import axios from 'axios';
 import moment from "moment";
 import { allStops } from '../../utils/constants';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { axiosInstance } from "../../utils/cached-axios";
 
-const TrainLabel = ({ mbtaPlaceId, platform }) => {
-    const [timeText, setTimeText] = useState('--');
+const TrainLabel = ({ mbtaPlaceId, platform, forcedManualRefresh }) => {
+   
+    const marshalledPrediciton = `${platform.directionId}${platform.mbtaTrainType}${mbtaPlaceId}${platform.routeId}`;
+    let lastRefresh = JSON.parse(window.sessionStorage.getItem(marshalledPrediciton));
+    
+    const [timeText, setTimeText] = useState(lastRefresh ? lastRefresh.timeText : '--');
     const [loading, setLoading] = useState(false);
 
     const formattedTime = (train) => {
@@ -32,25 +36,17 @@ const TrainLabel = ({ mbtaPlaceId, platform }) => {
         return formatted;
     }
 
-    const marshalledPrediciton = `${platform.directionId}${platform.mbtaTrainType}${mbtaPlaceId}${platform.routeId}`;
+    
 
-    useEffect(() => {
-        setLoading(true);
+    useEffect(() => {        
+        /* If we've already called for this prediction in the last 15 seconds, don't try again */
+        if (lastRefresh && ( (moment() - moment(lastRefresh.timeStamp)) < (15 * 1000) ) ) {
+            return;
+        }
 
-        if (!timeText || timeText === '--') {
-            let lastRefreshes = JSON.parse(window.localStorage.getItem("ALPACA_TRAIN_DASHBOARD_LAST_REFRESHES"));
-            if (!lastRefreshes) {
-                lastRefreshes = {};
-            }
-            /* If we've never called for this prediction or it's been longer than 10 seconds since we called for it */
-            if (!lastRefreshes[marshalledPrediciton] || ( (moment() - moment(lastRefreshes[marshalledPrediciton])) >= 10000 ) ) {
-                lastRefreshes[marshalledPrediciton] = moment().format();
-                window.localStorage.setItem("ALPACA_TRAIN_DASHBOARD_LAST_REFRESHES", JSON.stringify(lastRefreshes));
-            } else {
-                return
-            }
-
-            axios.get(`https://api-v3.mbta.com/predictions?include=stop&filter%5Bdirection_id%5D=${
+        const getPrediction = async () => {
+            setLoading(true);
+            const response = await axiosInstance.get(`https://api-v3.mbta.com/predictions?include=stop&filter%5Bdirection_id%5D=${
                 platform.directionId
             }&filter%5Broute_type%5D=${
                 platform.mbtaTrainType
@@ -58,57 +54,51 @@ const TrainLabel = ({ mbtaPlaceId, platform }) => {
                 mbtaPlaceId
             }&filter%5Broute%5D=${
                 platform.routeId
-            }`)
-                .then((response) => {
-                    
-                    let responseTrains = [];
-                    // If there are predictions
-                    if (response?.data?.data?.length > 0) {
-                        
-                        response.data.data.forEach(prediction => {
-                            // Display only trains with a departure time (meaning it can be boarded by passengers).
-                            if (prediction.attributes?.departure_time) {
-                                responseTrains.push({
-                                    arrivalTime: prediction.attributes?.arrival_time,
-                                    departureTime: prediction.attributes?.departure_time,
-                                    stopId: prediction.relationships?.stop?.data?.id,
-                                    destination: allStops[prediction.relationships?.stop?.data?.id].attributes.platform_name
-                                });
-                            }
+            }`);
+        
+            let responseTrains = [];
+            // If there are predictions
+            if (response?.data?.data?.length > 0) {
+                response.data.data.forEach(prediction => {
+                    // Display only trains with a departure time (meaning it can be boarded by passengers).
+                    if (prediction.attributes?.departure_time) {
+                        responseTrains.push({
+                            arrivalTime: prediction.attributes?.arrival_time,
+                            departureTime: prediction.attributes?.departure_time,
+                            stopId: prediction.relationships?.stop?.data?.id,
+                            destination: allStops[prediction.relationships?.stop?.data?.id].attributes.platform_name
                         });
-
-                        if (responseTrains && responseTrains.length > 0) {
-                            setTimeText(formattedTime(responseTrains[0]));
-                        }
                     }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-                .finally(() => {
-                    setLoading(false);
                 });
-        }
+                if (responseTrains && responseTrains.length > 0) {
+                    setTimeText(formattedTime(responseTrains[0]));
+                    window.sessionStorage.setItem(marshalledPrediciton, JSON.stringify({
+                        timeText: formattedTime(responseTrains[0]),
+                        timeStamp: moment().format()
+                    }));
+                }
+            }
+
+            setLoading(false);
+        };
+
+        getPrediction();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [forcedManualRefresh])
 
 
     return (
         <>
-            
-
             <div className="train-label">
                 <span className="train-name">{platform.routeName}</span>:&nbsp;
                 <span className="train-eta">
-                    {loading && <div>...</div>}
+                    {loading && <span>...</span>}
                     {!loading && timeText}
                 </span>
             </div>
-            
         </>
     )
-        
-
 }
 
 export default TrainLabel;

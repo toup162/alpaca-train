@@ -107,7 +107,6 @@ const AddFavoriteModal = ({ isOpen, setOpen }) => {
         }
 
         window.localStorage.setItem('ALPACA_TRAIN_FAVORITES', JSON.stringify(favorites));
-        window.localStorage.setItem('ALPACA_TRAIN_DASHBOARD_LAST_REFRESHES', null);
         
         onClose();
     };

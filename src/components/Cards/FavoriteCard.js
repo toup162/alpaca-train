@@ -1,11 +1,10 @@
 import React from 'react'
 import { Card, CardBody } from '@windmill/react-ui'
 import { LINE_COLORS } from '../../utils/constants';
-
 import './FavoriteCard.css';
 import TrainLabel from './TrainLabel';
 
-const FavoriteCard = ({ info }) => {
+const FavoriteCard = ({ info, forcedManualRefresh }) => {
     return (
         <Card>
             <CardBody className="station-card flex items-center p-0 justify-between">
@@ -23,7 +22,7 @@ const FavoriteCard = ({ info }) => {
                                     &#x2022;
                                 </div>
                                 <div className="train-label">
-                                    <TrainLabel mbtaPlaceId={info.mbtaPlaceId} platform={p} />
+                                    <TrainLabel mbtaPlaceId={info.mbtaPlaceId} platform={p} forcedManualRefresh={forcedManualRefresh}/>
                                 </div>
                             </div>
                         )
