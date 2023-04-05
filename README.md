@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/11641649/228842006-1f020faa-ce59-4241-a73b-1da2002f9d23.png">
+  <img width="180" src="https://user-images.githubusercontent.com/11641649/228842006-1f020faa-ce59-4241-a73b-1da2002f9d23.png">
 </p>
 
 
@@ -18,9 +18,9 @@
 
 ### Screens
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/11641649/229946568-254477a0-59f5-4458-8107-525d9d4ff2ab.png">
+    <img width="300" src="https://user-images.githubusercontent.com/11641649/229946568-254477a0-59f5-4458-8107-525d9d4ff2ab.png">
     &nbsp;&nbsp;
-    <img src="https://user-images.githubusercontent.com/11641649/229946934-27145fc5-956a-4eed-bf29-7ec31ed9f6d2.png">
+    <img width="300" src="https://user-images.githubusercontent.com/11641649/229946934-27145fc5-956a-4eed-bf29-7ec31ed9f6d2.png">
 </p>
 
 
