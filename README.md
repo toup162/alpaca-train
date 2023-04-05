@@ -22,7 +22,6 @@
     &nbsp;&nbsp;
     <img src="https://user-images.githubusercontent.com/11641649/229946934-27145fc5-956a-4eed-bf29-7ec31ed9f6d2.png">
 </p>
-![image]()
 
 
 ## Development Documentation
