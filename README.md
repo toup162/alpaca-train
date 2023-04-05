@@ -2,8 +2,9 @@
 
 
 <p align="center">
-  <img width="180" src="https://user-images.githubusercontent.com/11641649/228842006-1f020faa-ce59-4241-a73b-1da2002f9d23.png">
+  <img width="350" src="https://user-images.githubusercontent.com/11641649/229994769-8bc11b4c-e853-48e6-9ead-5b82b49833b9.png">
 </p>
+
 
 
 **alpacatrain** is a mobile-first web tool for tracking MBTA (Boston subway) lines. Favorited platforms will have incoming/outgoing train predictions displayed at a glance. 
